@@ -10,7 +10,14 @@ namespace EventApp.Infrastructure.Repositories
 {
     public class EventRepository : IEventRepository
     {
-        private ISet<Event> _events = new HashSet<Event>();
+        private ISet<Event> _events = new HashSet<Event>
+        {
+            new Event(Guid.NewGuid()),
+            new Event(Guid.NewGuid()),
+            new Event(Guid.NewGuid()),
+            new Event(Guid.NewGuid()),
+            new Event(Guid.NewGuid())
+        };
 
         public async Task<Event> GetAsync(Guid id)
         {
