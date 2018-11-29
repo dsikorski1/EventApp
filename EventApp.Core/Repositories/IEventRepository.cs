@@ -10,9 +10,9 @@ namespace EventApp.Core.Repositories
     {
         Task<Event> GetAsync(Guid id);
         Task<Event> GetAsync(string name);
-        Task<IEquatable<Event>> BrowseAsync();
-        Task AddAsync(Domain.Event @event);
-        Task UpdateAsync(Domain.Event @event);
-        Task DeleteAsync(Domain.Event @event);
+        Task<IEnumerable<Event>> BrowseAsync();
+        Task AddAsync(Event @event);
+        Task UpdateAsync(Event @event);
+        Task DeleteAsync(Event @event);
     }
 }
