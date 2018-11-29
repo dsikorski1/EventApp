@@ -10,7 +10,7 @@ namespace EventApp.Core.Repositories
     {
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
-        Task<IEquatable<User>> BrowseAsync();
+        Task<IEnumerable<User>> BrowseAsync();
         Task AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(User user);
