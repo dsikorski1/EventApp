@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EventApp.Core.Domain
 {
-    class User : Entity
+    public class User : Entity
     {
         public string Username { get; protected set; }
         public string Email { get; protected set; }
