@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventApp.Core.Repositories;
+using EventApp.Infrastructure.Mappers;
+using EventApp.Infrastructure.Repositories;
+using EventApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +30,12 @@ namespace EventApp.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<IEventRepository, EventRepository>()
+                .AddScoped<IUserRepository, UserRepository>()
+                .AddScoped<IEventService, EventService>();
+
+            services.AddSingleton(AutoMapperConfig.Initialize());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
