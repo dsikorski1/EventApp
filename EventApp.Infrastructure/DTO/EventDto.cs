@@ -12,6 +12,7 @@ namespace EventApp.Infrastructure.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public int TicketsCount { get; set; }
 
         public EventDto()
         {
