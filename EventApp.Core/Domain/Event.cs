@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EventApp.Core.Domain
@@ -14,6 +15,8 @@ namespace EventApp.Core.Domain
         public DateTime EndDate { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
+        public IEnumerable<Ticket> PurchasedTickets => _tickets.Where(t => t.Purchased());
+        public IEnumerable<Ticket> AvailableTickets => _tickets.Except(PurchasedTickets);
 
         protected Event() : base(Guid.NewGuid())
         {

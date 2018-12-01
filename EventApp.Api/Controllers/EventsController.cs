@@ -26,10 +26,14 @@ namespace EventApp.Api.Controllers
             return Json(events);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("{eventId}")]
+        public async Task<IActionResult> Get(Guid eventId)
         {
-            var @event = await _service.GetAsync(id);
+            var @event = await _service.GetAsync(eventId);
+            if(@event == null)
+            {
+                return NotFound();
+            }
 
             return Json(@event);
         }
