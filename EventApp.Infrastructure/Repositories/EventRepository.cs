@@ -10,7 +10,7 @@ namespace EventApp.Infrastructure.Repositories
 {
     public class EventRepository : IEventRepository
     {
-        private ISet<Event> _events = new HashSet<Event>
+        private static readonly ISet<Event> _events = new HashSet<Event>
         {
             new Event(new Guid("fd563a55-bff0-46ff-affe-3221c2dd5cf8"), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow),
             new Event(Guid.NewGuid(), "Event 2", "Description 2", DateTime.UtcNow, DateTime.UtcNow),
