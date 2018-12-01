@@ -11,7 +11,8 @@ namespace EventApp.Infrastructure.Commands.Events
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int TicketsCount { get; set; }
+        public int Tickets { get; set; }
+        public decimal Price { get; set; }
 
         public CreateEvent()
         {

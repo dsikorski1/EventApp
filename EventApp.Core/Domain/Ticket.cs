@@ -20,6 +20,14 @@ namespace EventApp.Core.Domain
         {
         }
 
+        public Ticket(Guid eventId, decimal price): base(Guid.NewGuid())
+        {
+            EventId = eventId;
+            Price = price;
+            Seating = 1;
+            PurchasedAt = DateTime.UtcNow;
+        }
+
         public bool Purchased()
         {
             return UserId.HasValue;

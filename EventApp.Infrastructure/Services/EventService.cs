@@ -62,5 +62,16 @@ namespace EventApp.Infrastructure.Services
         {
             await _repository.DeleteAsync(new Event(guid));
         }
+
+        public async Task AddTicketsAsync(Guid eventId, decimal price)
+        {
+            var @event = await _repository.GetAsync(eventId);
+            if (@event != null)
+            {
+                throw new Exception($"Event with id: '{eventId}' does not exist.");
+            }
+
+            @event.AddTicket(new Ticket(eventId, price));
+        }
     }
 }

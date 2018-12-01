@@ -39,6 +39,7 @@ namespace EventApp.Api.Controllers
         {
             await _service.CreateAsync(command.EventId, command.Name, command.Description,
                 command.StartDate, command.EndDate);
+            await _service.AddTicketsAsync(command.EventId, command.Price);
 
             return Created($"/events/{command.EventId}", null);
         }
