@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventApp.Api.Controllers
 {
-    [Route("events")]
-    public class EventController : Controller
+    [Route("[controller]")]
+    public class EventsController : Controller
     {
         private readonly IEventService _service;
 
-        public EventController(IEventService service)
+        public EventsController(IEventService service)
         {
             _service = service;
         }
@@ -39,7 +39,7 @@ namespace EventApp.Api.Controllers
         {
             await _service.CreateAsync(command.EventId, command.Name, command.Description,
                 command.StartDate, command.EndDate);
-            await _service.AddTicketsAsync(command.EventId, command.Price);
+            await _service.AddTicketsAsync(command.EventId, command.Tickets ,command.Price);
 
             return Created($"/events/{command.EventId}", null);
         }

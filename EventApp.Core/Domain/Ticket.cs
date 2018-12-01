@@ -12,20 +12,15 @@ namespace EventApp.Core.Domain
         public int Seating { get; protected set; }
         public DateTime? PurchasedAt { get; protected set; }
 
-        public Ticket() : base()
+        protected Ticket() : base(Guid.NewGuid())
         {
         }
 
-        public Ticket(Guid guid) : base(guid)
+        public Ticket(Event @event, int setating, decimal price): base(Guid.NewGuid())
         {
-        }
-
-        public Ticket(Guid eventId, decimal price): base(Guid.NewGuid())
-        {
-            EventId = eventId;
+            EventId = @event.Id;
             Price = price;
-            Seating = 1;
-            PurchasedAt = DateTime.UtcNow;
+            Seating = setating;
         }
 
         public bool Purchased()

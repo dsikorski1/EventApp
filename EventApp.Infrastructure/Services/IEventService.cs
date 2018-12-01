@@ -14,6 +14,6 @@ namespace EventApp.Infrastructure.Services
         Task CreateAsync(Guid guid, string name, string description, DateTime startDate, DateTime endDate);
         Task UpdateAsync(Guid guid, string name, string description);
         Task DeleteAsync(Guid guid);
-        Task AddTicketsAsync(Guid eventId, decimal price);
+        Task AddTicketsAsync(Guid eventId, int amount, decimal price);
     }
 }

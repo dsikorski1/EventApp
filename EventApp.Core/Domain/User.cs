@@ -13,10 +13,6 @@ namespace EventApp.Core.Domain
         public string Password { get; protected set; }
         public string Role { get; protected set; }
 
-        public User() : base()
-        {
-        }
-
         public User(Guid guid) : base(guid)
         {
         }

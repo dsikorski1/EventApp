@@ -15,11 +15,7 @@ namespace EventApp.Core.Domain
         public DateTime UpdatedAt { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
 
-        protected Event() : base()
-        {
-        }
-
-        public Event(Guid guid) : base(guid)
+        protected Event() : base(Guid.NewGuid())
         {
         }
 
@@ -31,12 +27,16 @@ namespace EventApp.Core.Domain
             StartDate = startDate;
             EndDate = endDate;
             UpdatedAt = DateTime.UtcNow;
-            SetCreatedAt();
         }
 
-        public void AddTicket(Ticket ticket)
+        public void AddTickets(int amount, decimal price)
         {
-            _tickets.Add(ticket);
+            var seating = _tickets.Count + 1;
+            for (var i = 0; i < amount; i++)
+            {
+                _tickets.Add(new Ticket(this, seating, price));
+                seating++;
+            }
         }
     }
 }

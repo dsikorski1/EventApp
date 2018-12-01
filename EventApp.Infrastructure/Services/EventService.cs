@@ -55,23 +55,23 @@ namespace EventApp.Infrastructure.Services
 
         public async Task UpdateAsync(Guid guid, string name, string description)
         {
-            await _repository.UpdateAsync(new Event(guid));
+            await _repository.UpdateAsync(new Event(Guid.NewGuid(), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow));
         }
 
         public async Task DeleteAsync(Guid guid)
         {
-            await _repository.DeleteAsync(new Event(guid));
+            await _repository.DeleteAsync(new Event(Guid.NewGuid(), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow));
         }
 
-        public async Task AddTicketsAsync(Guid eventId, decimal price)
+        public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
             var @event = await _repository.GetAsync(eventId);
-            if (@event != null)
+            if (@event == null)
             {
                 throw new Exception($"Event with id: '{eventId}' does not exist.");
             }
 
-            @event.AddTicket(new Ticket(eventId, price));
+            @event.AddTickets(amount, price);
         }
     }
 }
