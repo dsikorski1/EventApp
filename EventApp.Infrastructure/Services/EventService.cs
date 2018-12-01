@@ -70,7 +70,8 @@ namespace EventApp.Infrastructure.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(new Event(Guid.NewGuid(), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow));
+            var @event = await _repository.GetOrFailAsync(id);
+            await _repository.DeleteAsync(@event);
         }
 
         public async Task AddTicketsAsync(Guid id, int amount, decimal price)
