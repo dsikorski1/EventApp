@@ -11,8 +11,6 @@ namespace EventApp.Core.Domain
 
         protected Entity()
         {
-            Id = Guid.NewGuid();
-            SetCreatedAt();
         }
 
         protected Entity(Guid id)

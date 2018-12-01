@@ -12,11 +12,12 @@ namespace EventApp.Infrastructure.Repositories
     {
         private ISet<Event> _events = new HashSet<Event>
         {
-            new Event(Guid.NewGuid()),
-            new Event(Guid.NewGuid()),
-            new Event(Guid.NewGuid()),
-            new Event(Guid.NewGuid()),
-            new Event(Guid.NewGuid())
+            new Event(Guid.NewGuid(), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow),
+            new Event(Guid.NewGuid(), "Event 2", "Description 2", DateTime.UtcNow, DateTime.UtcNow),
+            new Event(Guid.NewGuid(), "Event 3", "Description 3", DateTime.UtcNow, DateTime.UtcNow),
+            new Event(Guid.NewGuid(), "Event 4", "Description 4", DateTime.UtcNow, DateTime.UtcNow),
+            new Event(Guid.NewGuid(), "Event 5", "Description 5", DateTime.UtcNow, DateTime.UtcNow),
+            new Event(Guid.NewGuid(), "Event 6", "Description 6", DateTime.UtcNow, DateTime.UtcNow)
         };
 
         public async Task<Event> GetAsync(Guid id)
