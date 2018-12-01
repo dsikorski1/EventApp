@@ -27,9 +27,9 @@ namespace EventApp.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var @event = await _service.GetAsync(new Guid(id));
+            var @event = await _service.GetAsync(id);
 
             return Json(@event);
         }
@@ -42,6 +42,14 @@ namespace EventApp.Api.Controllers
             await _service.AddTicketsAsync(command.EventId, command.Tickets ,command.Price);
 
             return Created($"/events/{command.EventId}", null);
+        }
+
+        [HttpPut("{eventId}")]
+        public async Task<IActionResult> Update(Guid eventId, [FromBody]UpdateCommand command)
+        {
+            await _service.UpdateAsync(eventId, command.Name, command.Description);
+
+            return NoContent();
         }
     }
 }

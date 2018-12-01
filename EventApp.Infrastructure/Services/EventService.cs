@@ -55,7 +55,21 @@ namespace EventApp.Infrastructure.Services
 
         public async Task UpdateAsync(Guid guid, string name, string description)
         {
-            await _repository.UpdateAsync(new Event(Guid.NewGuid(), "Event 1", "Description 1", DateTime.UtcNow, DateTime.UtcNow));
+            var @event = await _repository.GetAsync(guid);
+            if(@event == null)
+            {
+                throw new Exception($"Event with id: '{guid}' not exists.");
+            }
+            
+            if(await _repository.GetAsync(name) != null)
+            {
+                throw new Exception($"Event with name: '{name}' already exists.");
+            }
+
+            @event.SetName(name);
+            @event.SetDescription(description);
+
+            await _repository.UpdateAsync(@event);
         }
 
         public async Task DeleteAsync(Guid guid)
