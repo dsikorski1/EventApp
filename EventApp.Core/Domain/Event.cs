@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EventApp.Core.Domain
@@ -14,18 +15,41 @@ namespace EventApp.Core.Domain
         public DateTime EndDate { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
+        public IEnumerable<Ticket> PurchasedTickets => _tickets.Where(t => t.Purchased());
+        public IEnumerable<Ticket> AvailableTickets => _tickets.Except(PurchasedTickets);
 
-        public Event() : base()
+        protected Event() : base(Guid.NewGuid())
         {
         }
 
-        public Event(Guid guid) : base(guid)
+        public Event(Guid guid, string name, string description,
+            DateTime startDate, DateTime endDate) : base(guid)
         {
+            Name = name;
+            Description = description;
+            StartDate = startDate;
+            EndDate = endDate;
+            UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddTicket(Ticket ticket)
+        public void AddTickets(int amount, decimal price)
         {
-            _tickets.Add(ticket);
+            var seating = _tickets.Count + 1;
+            for (var i = 0; i < amount; i++)
+            {
+                _tickets.Add(new Ticket(this, seating, price));
+                seating++;
+            }
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
         }
     }
 }

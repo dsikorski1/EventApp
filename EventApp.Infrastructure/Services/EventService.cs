@@ -6,6 +6,7 @@ using AutoMapper;
 using EventApp.Core.Domain;
 using EventApp.Core.Repositories;
 using EventApp.Infrastructure.DTO;
+using EventApp.Infrastructure.Extensions;
 
 namespace EventApp.Infrastructure.Services
 {
@@ -20,18 +21,18 @@ namespace EventApp.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task<EventDto> GetAsync(Guid id)
+        public async Task<EventDetailsDto> GetAsync(Guid id)
         {
             var @event = await _repository.GetAsync(id);
 
-            return _mapper.Map<EventDto>(@event);
+            return _mapper.Map<EventDetailsDto>(@event);
         }
 
-        public async Task<EventDto> GetAsync(string name)
+        public async Task<EventDetailsDto> GetAsync(string name)
         {
             var @event = await _repository.GetAsync(name);
 
-            return _mapper.Map<EventDto>(@event);
+            return _mapper.Map<EventDetailsDto>(@event);
         }
 
         public async Task<IEnumerable<EventDto>> BrowseAsync()
@@ -41,19 +42,43 @@ namespace EventApp.Infrastructure.Services
             return _mapper.Map<IEnumerable<EventDto>>(events);
         }
 
-        public async Task CreateAsync(Guid guid, string name, string description, DateTime startDate, DateTime endDate)
+        public async Task CreateAsync(Guid id, string name, string description, DateTime startDate, DateTime endDate)
         {
-            await _repository.AddAsync(new Event());
+            var @event = await _repository.GetAsync(name);
+            if(@event != null)
+            {
+                throw new Exception($"Event named: '{name}' already exist.");
+            }
+
+            @event = new Event(id, name, description, startDate, endDate);
+            await _repository.AddAsync(@event);
         }
 
-        public async Task UpdateAsync(Guid guid, string name, string description)
+        public async Task UpdateAsync(Guid id, string name, string description)
         {
-            await _repository.UpdateAsync(new Event());
+            var @event = await _repository.GetOrFailAsync(id);
+            if(await _repository.GetAsync(name) != null)
+            {
+                throw new Exception($"Event with name: '{name}' already exists.");
+            }
+
+            @event.SetName(name);
+            @event.SetDescription(description);
+
+            await _repository.UpdateAsync(@event);
         }
 
-        public async Task DeleteAsync(Guid guid)
+        public async Task DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(new Event());
+            var @event = await _repository.GetOrFailAsync(id);
+            await _repository.DeleteAsync(@event);
+        }
+
+        public async Task AddTicketsAsync(Guid id, int amount, decimal price)
+        {
+            var @event = await _repository.GetOrFailAsync(id);
+
+            @event.AddTickets(amount, price);
         }
     }
 }
