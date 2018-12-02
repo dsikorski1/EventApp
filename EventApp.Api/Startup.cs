@@ -33,7 +33,8 @@ namespace EventApp.Api
 
             services.AddScoped<IEventRepository, EventRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<IEventService, EventService>();
+                .AddScoped<IEventService, EventService>()
+                .AddScoped<IUserService, UserService>();
 
             services.AddSingleton(AutoMapperConfig.Initialize());
         }

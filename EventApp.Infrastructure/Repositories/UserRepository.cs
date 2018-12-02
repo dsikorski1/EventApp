@@ -10,7 +10,7 @@ namespace EventApp.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private ISet<User> _users = new HashSet<User>();
+        private static readonly ISet<User> _users = new HashSet<User>();
 
         public async Task<User> GetAsync(Guid id)
         {
