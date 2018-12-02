@@ -17,6 +17,11 @@ namespace EventApp.Infrastructure.Services
             _repository = repository;
         }
 
+        public async Task<User> GetAsync(Guid id)
+        {
+            return await _repository.GetAsync(id);
+        }
+
         public async Task RegisterAsync(RegisterUser command)
         {
             var user = await _repository.GetAsync(command.Email);

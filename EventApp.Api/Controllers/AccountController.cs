@@ -18,6 +18,18 @@ namespace EventApp.Api.Controllers
             _service = service;        
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var user = await _service.GetAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Json(user);
+        }
+
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody]RegisterUser command)
