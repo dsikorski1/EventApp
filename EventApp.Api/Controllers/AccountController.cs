@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EventApp.Api.Controllers
 {
     [Route("[controller]")]
+    [ApiController]
     public class AccountController : Controller
     {
         private IUserService _service;
