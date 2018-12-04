@@ -31,6 +31,15 @@ namespace EventApp.Api.Controllers
         }
 
         [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody]LoginUser command)
+        {
+            var user = await _service.LoginAsync(command);
+
+            return Json(User);
+        }
+
+        [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody]RegisterUser command)
         {

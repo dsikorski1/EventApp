@@ -8,6 +8,7 @@ namespace EventApp.Infrastructure.Services
     public interface IUserService
     {
         Task<User> GetAsync(Guid id);
+        Task<User> LoginAsync(LoginUser command);
         Task RegisterAsync(RegisterUser command);
     }
 }

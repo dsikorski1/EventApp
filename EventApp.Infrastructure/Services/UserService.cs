@@ -22,6 +22,17 @@ namespace EventApp.Infrastructure.Services
             return await _repository.GetAsync(id);
         }
 
+        public async Task<User> LoginAsync(LoginUser command)
+        {
+            var user = await _repository.GetAsync(command.Email);
+            if(user == null || (user != null && user.Password != command.Password))
+            {
+                throw new Exception("Invalid credentials.");
+            }
+
+            return user;
+        }
+
         public async Task RegisterAsync(RegisterUser command)
         {
             var user = await _repository.GetAsync(command.Email);
