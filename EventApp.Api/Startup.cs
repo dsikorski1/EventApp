@@ -66,7 +66,8 @@ namespace EventApp.Api
             services.AddScoped<IEventRepository, EventRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IEventService, EventService>()
-                .AddScoped<IUserService, UserService>();
+                .AddScoped<IUserService, UserService>()
+                .AddScoped<IJwtHandler, JwtHandler>();
         }
 
         private void AddAuthentication(IServiceCollection services)
