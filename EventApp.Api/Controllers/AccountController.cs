@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using EventApp.Infrastructure.Commands.Users;
 using EventApp.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AccountController : Controller
+    public class AccountController : ApiController
     {
         private IUserService _service;
 
@@ -19,14 +20,11 @@ namespace EventApp.Api.Controllers
             _service = service;        
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Get()
         {
-            var user = await _service.GetAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            var user = await _service.GetAsync(UserId());
 
             return Json(user);
         }
