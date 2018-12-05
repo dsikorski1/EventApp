@@ -58,7 +58,8 @@ namespace EventApp.Api
 
         private void AddSingleton(IServiceCollection services)
         {
-            services.AddSingleton(AutoMapperConfig.Initialize());
+            services.AddSingleton(AutoMapperConfig.Initialize())
+                .AddSingleton<IJwtHandler, JwtHandler>();
         }
 
         private void AddScoped(IServiceCollection services)
@@ -66,8 +67,7 @@ namespace EventApp.Api
             services.AddScoped<IEventRepository, EventRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IEventService, EventService>()
-                .AddScoped<IUserService, UserService>()
-                .AddScoped<IJwtHandler, JwtHandler>();
+                .AddScoped<IUserService, UserService>();
         }
 
         private void AddAuthentication(IServiceCollection services)

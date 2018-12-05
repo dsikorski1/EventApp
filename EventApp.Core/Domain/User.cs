@@ -22,6 +22,7 @@ namespace EventApp.Core.Domain
             Firstname = firstname;
             Lastname = lastname;
             Password = password;
+            Role = "User";
         }
     }
 }

@@ -35,9 +35,9 @@ namespace EventApp.Api.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody]LoginUser command)
         {
-            var user = await _service.LoginAsync(command);
+            var token = await _service.LoginAsync(command);
 
-            return Json(User);
+            return Json(token);
         }
 
         [HttpPost]
