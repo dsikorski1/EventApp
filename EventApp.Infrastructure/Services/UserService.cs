@@ -1,7 +1,9 @@
-﻿using EventApp.Core.Domain;
+﻿using AutoMapper;
+using EventApp.Core.Domain;
 using EventApp.Core.Repositories;
 using EventApp.Infrastructure.Commands.Users;
 using EventApp.Infrastructure.DTO;
+using EventApp.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,22 +15,30 @@ namespace EventApp.Infrastructure.Services
     {
         private IUserRepository _repository;
         private IJwtHandler _jwtHendler;
+        private IMapper _mapper;
 
-        public UserService(IUserRepository repository, IJwtHandler jwtHandler)
+        public UserService(
+            IUserRepository repository,
+            IJwtHandler jwtHandler,
+            IMapper mapper
+        )
         {
             _repository = repository;
             _jwtHendler = jwtHandler;
+            _mapper = mapper;
         }
 
-        public async Task<User> GetAsync(Guid id)
+        public async Task<AccountDto> GetAsync(Guid id)
         {
-            return await _repository.GetAsync(id);
+            var user = await _repository.GetOrFailAsync(id);
+
+            return _mapper.Map<AccountDto>(user);
         }
 
         public async Task<TokenDto> LoginAsync(LoginUser command)
         {
             var user = await _repository.GetAsync(command.Email);
-            if(user == null || (user != null && user.Password != command.Password))
+            if (user == null || (user != null && user.Password != command.Password))
             {
                 throw new Exception("Invalid credentials.");
             }
@@ -40,7 +50,7 @@ namespace EventApp.Infrastructure.Services
         public async Task RegisterAsync(RegisterUser command)
         {
             var user = await _repository.GetAsync(command.Email);
-            if(user != null)
+            if (user != null)
             {
                 throw new Exception($"User with email: '{command.Email}' already exists");
             }
