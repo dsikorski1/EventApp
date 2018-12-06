@@ -85,7 +85,13 @@ namespace EventApp.Api
                         ValidateAudience = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Key))
                     };
-                });
+                }
+            );
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsAdmin", policy => policy.RequireRole("Admin"));
+            });
         }
     }
 }
