@@ -4,12 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using EventApp.Infrastructure.Commands.Events;
 using EventApp.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventApp.Api.Controllers
 {
     [Route("[controller]")]
-    public class EventsController : Controller
+    [ApiController]
+    [Authorize(Policy = "IsAdmin")]
+    public class EventsController : ApiController
     {
         private readonly IEventService _service;
 
@@ -19,6 +22,7 @@ namespace EventApp.Api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> List()
         {
             var events = await _service.BrowseAsync();
