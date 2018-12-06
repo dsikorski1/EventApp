@@ -10,7 +10,7 @@ namespace EventApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class EventsController : Controller
+    public class EventsController : ApiController
     {
         private readonly IEventService _service;
 

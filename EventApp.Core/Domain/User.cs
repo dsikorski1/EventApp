@@ -16,13 +16,13 @@ namespace EventApp.Core.Domain
         {
         }
 
-        public User(Guid id, string email, string firstname, string lastname, string password) : base(id)
+        public User(Guid id, string email, string firstname, string lastname, string password, string role) : base(id)
         {
             Email = email;
             Firstname = firstname;
             Lastname = lastname;
             Password = password;
-            Role = "User";
+            Role = role;
         }
     }
 }

@@ -55,7 +55,7 @@ namespace EventApp.Infrastructure.Services
                 throw new Exception($"User with email: '{command.Email}' already exists");
             }
 
-            user = new User(command.Id, command.Email, command.Firstname, command.Lastname, command.Password);
+            user = new User(command.Id, command.Email, command.Firstname, command.Lastname, command.Password, command.Role);
             await _repository.AddAsync(user);
         }
     }
