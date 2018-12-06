@@ -44,7 +44,7 @@ namespace EventApp.Api.Controllers
         {
             await _service.RegisterAsync(command);
 
-            return Created($"acount/{command.Id}", command);
+            return Created("/account/login", null);
         }
     }
 }

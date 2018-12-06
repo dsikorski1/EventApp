@@ -50,7 +50,7 @@ namespace EventApp.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString())
+                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString()),
             };
         }
 

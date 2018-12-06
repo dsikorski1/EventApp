@@ -52,6 +52,7 @@ namespace EventApp.Api
             {
                 app.UseHsts();
             }
+            app.UseAuthentication();
             //app.UseHttpsRedirection
             app.UseMvc();
         }
@@ -72,14 +73,17 @@ namespace EventApp.Api
 
         private void AddAuthentication(IServiceCollection services)
         {
+            var serviceProvider = services.BuildServiceProvider();
+            var jwtSettings = serviceProvider.GetService<IOptions<JwtSettings>>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = "http://localhost:5000",
+                        ValidIssuer = jwtSettings.Value.Issuer,
                         ValidateAudience = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWTsecretKey"))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Key))
                     };
                 });
         }
