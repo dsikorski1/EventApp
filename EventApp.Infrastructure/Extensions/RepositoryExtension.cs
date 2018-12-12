@@ -2,6 +2,7 @@
 using EventApp.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,18 @@ namespace EventApp.Infrastructure.Extensions
             }
 
             return @event;
+        }
+
+        public static async Task<Ticket> GetTicketOrFailAsync(this IEventRepository repository, Guid eventId, Guid ticketId)
+        {
+            var @event = await repository.GetOrFailAsync(eventId);
+            var ticket = @event.Tickets.SingleOrDefault(t => t.Id == ticketId);
+            if (ticket == null)
+            {
+                throw new Exception($"Ticket with id: '{ticketId}' does not exists.");
+            }
+
+            return ticket;
         }
 
         public static async Task<User> GetOrFailAsync(this IUserRepository repository, Guid id)
