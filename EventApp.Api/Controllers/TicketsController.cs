@@ -45,5 +45,13 @@ namespace EventApp.Api.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTicketsPurchasedByUser()
+        {
+            var tickets = await ticketService.GetTicketsPurchasedByUserAsync(UserId());
+
+            return Json(tickets);
+        }
     }
 }

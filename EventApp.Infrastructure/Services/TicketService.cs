@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -50,6 +51,15 @@ namespace EventApp.Infrastructure.Services
             await eventRepository.UpdateAsync(@event);
       
             await Task.CompletedTask;
+        }
+
+        public async Task<IEnumerable<TicketDto>> GetTicketsPurchasedByUserAsync(Guid userId)
+        {
+            var user = await userRepository.GetOrFailAsync(userId);
+            var events = await eventRepository.BrowseAsync();
+            var tickets = events.SelectMany(x => x.GetTicketsPurchasedByUser(user));
+
+            return mapper.Map<IEnumerable<TicketDto>>(tickets);
         }
     }
 }

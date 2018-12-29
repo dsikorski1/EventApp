@@ -67,7 +67,7 @@ namespace EventApp.Core.Domain
 
         public void CancelTickets(User user, int amount)
         {
-            var tickets = PurchasedTickets.Where(t => t.UserId == user.Id);
+            var tickets = GetTicketsPurchasedByUser(user);
             if (tickets.Count() < amount)
             {
                 throw new Exception("Not enought purchased tickets to cancel.");
@@ -77,6 +77,11 @@ namespace EventApp.Core.Domain
             {
                 ticket.Cancel();
             }
+        }
+
+        public IEnumerable<Ticket> GetTicketsPurchasedByUser(User user)
+        {
+            return PurchasedTickets.Where(x => x.UserId == user.Id);
         }
     }
 }
