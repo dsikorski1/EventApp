@@ -9,6 +9,7 @@ namespace EventApp.Infrastructure.DTO
         public decimal Price { get; set; }
         public int Seating { get; set; }
         public DateTime? PurchasedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public bool Purchased()
         {

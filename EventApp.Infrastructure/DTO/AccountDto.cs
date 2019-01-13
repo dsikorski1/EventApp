@@ -11,6 +11,7 @@ namespace EventApp.Infrastructure.DTO
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Role { get; set; }
+        public string CreatedAt { set; get; }
 
         public AccountDto()
         {

@@ -15,7 +15,7 @@ namespace EventApp.Core.Domain
             SetCreatedAt();
         }
 
-        protected void SetCreatedAt()
+        protected virtual void SetCreatedAt()
         {
             CreatedAt = DateTime.UtcNow;
         }
