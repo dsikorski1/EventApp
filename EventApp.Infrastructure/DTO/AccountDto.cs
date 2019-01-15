@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EventApp.Infrastructure.DTO
 {
@@ -12,9 +10,5 @@ namespace EventApp.Infrastructure.DTO
         public string Lastname { get; set; }
         public string Role { get; set; }
         public string CreatedAt { set; get; }
-
-        public AccountDto()
-        {
-        }
     }
 }

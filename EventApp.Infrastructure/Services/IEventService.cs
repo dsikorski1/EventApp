@@ -1,8 +1,7 @@
-﻿using EventApp.Infrastructure.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using EventApp.Infrastructure.DTO;
 
 namespace EventApp.Infrastructure.Services
 {

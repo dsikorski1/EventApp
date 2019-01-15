@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EventApp.Infrastructure.Commands.Events;
 using EventApp.Infrastructure.Services;
@@ -34,7 +32,7 @@ namespace EventApp.Api.Controllers
         public async Task<IActionResult> Get(Guid eventId)
         {
             var @event = await _service.GetAsync(eventId);
-            if(@event == null)
+            if (@event == null)
             {
                 return NotFound();
             }
@@ -43,17 +41,17 @@ namespace EventApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateEvent command)
+        public async Task<IActionResult> Create([FromBody] CreateEvent command)
         {
             await _service.CreateAsync(command.EventId, command.Name, command.Description,
                 command.StartDate, command.EndDate);
-            await _service.AddTicketsAsync(command.EventId, command.Tickets ,command.Price);
+            await _service.AddTicketsAsync(command.EventId, command.Tickets, command.Price);
 
-            return Created($"/events/{command.EventId}", null);
+            return Created($"/events/{command.EventId.ToString()}", null);
         }
 
         [HttpPut("{eventId}")]
-        public async Task<IActionResult> Update(Guid eventId, [FromBody]UpdateCommand command)
+        public async Task<IActionResult> Update(Guid eventId, [FromBody] UpdateCommand command)
         {
             await _service.UpdateAsync(eventId, command.Name, command.Description);
 

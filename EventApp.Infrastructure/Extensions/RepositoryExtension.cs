@@ -1,10 +1,8 @@
-﻿using EventApp.Core.Domain;
-using EventApp.Core.Repositories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using EventApp.Core.Domain;
+using EventApp.Core.Repositories;
 
 namespace EventApp.Infrastructure.Extensions
 {
@@ -13,7 +11,7 @@ namespace EventApp.Infrastructure.Extensions
         public static async Task<Event> GetOrFailAsync(this IEventRepository repository, Guid id)
         {
             var @event = await repository.GetAsync(id);
-            if(@event == null)
+            if (@event == null)
             {
                 throw new Exception($"Event with id: '{id}' does not exists.");
             }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using EventApp.Core.Repositories;
@@ -14,7 +13,7 @@ namespace EventApp.Infrastructure.Services
     {
         private readonly IUserRepository userRepository;
         private readonly IEventRepository eventRepository;
-        private IMapper mapper;
+        private readonly IMapper mapper;
 
         public TicketService(IUserRepository userRepository, IEventRepository eventRepository, IMapper mapper)
         {
@@ -23,9 +22,8 @@ namespace EventApp.Infrastructure.Services
             this.mapper = mapper;
         }
 
-        public async Task<TicketDto> GetAsync(Guid userId, Guid eventId, Guid ticketId)
+        public async Task<TicketDto> GetAsync(Guid eventId, Guid ticketId)
         {
-            var user = await userRepository.GetOrFailAsync(userId);
             var ticket = await eventRepository.GetTicketOrFailAsync(eventId, ticketId);
 
             return mapper.Map<TicketDto>(ticket);
@@ -49,17 +47,28 @@ namespace EventApp.Infrastructure.Services
 
             @event.CancelTickets(user, amount);
             await eventRepository.UpdateAsync(@event);
-      
+
             await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<TicketDto>> GetTicketsPurchasedByUserAsync(Guid userId)
+        public async Task<IEnumerable<TicketDetailsDto>> GetTicketsPurchasedByUserAsync(Guid userId)
         {
-            var user = await userRepository.GetOrFailAsync(userId);
+            var tickets = new List<TicketDetailsDto>();
             var events = await eventRepository.BrowseAsync();
-            var tickets = events.SelectMany(x => x.GetTicketsPurchasedByUser(user));
+            foreach (var @event in events)
+            {
+                var userTickets = mapper.Map<IEnumerable<TicketDetailsDto>>(@event.GetTicketsPurchasedByUser(userId))
+                    .ToList();
 
-            return mapper.Map<IEnumerable<TicketDto>>(tickets);
+                userTickets.ForEach(t =>
+                {
+                    t.EventId = @event.Id;
+                    t.EventName = @event.Name;
+                });
+                tickets.AddRange(userTickets);
+            }
+
+            return tickets;
         }
     }
 }

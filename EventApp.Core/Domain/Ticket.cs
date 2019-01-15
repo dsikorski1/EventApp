@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace EventApp.Core.Domain
 {
@@ -43,7 +41,7 @@ namespace EventApp.Core.Domain
         {
             if (!IsPurchased())
             {
-                throw new Exception("Ticket was not putchased and can not be canceled.");
+                throw new Exception("Ticket was not purchased and can not be canceled.");
             }
 
             UserId = null;

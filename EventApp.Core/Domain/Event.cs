@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EventApp.Core.Domain
 {
@@ -81,7 +80,12 @@ namespace EventApp.Core.Domain
 
         public IEnumerable<Ticket> GetTicketsPurchasedByUser(User user)
         {
-            return PurchasedTickets.Where(x => x.UserId == user.Id);
+            return GetTicketsPurchasedByUser(user.Id);
+        }
+
+        public IEnumerable<Ticket> GetTicketsPurchasedByUser(Guid userId)
+        {
+            return PurchasedTickets.Where(x => x.UserId == userId);
         }
     }
 }
