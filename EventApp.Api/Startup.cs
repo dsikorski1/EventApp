@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using EventApp.Core.Repositories;
 using EventApp.Infrastructure.Mappers;
 using EventApp.Infrastructure.Repositories;
@@ -11,11 +7,9 @@ using EventApp.Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -52,6 +46,7 @@ namespace EventApp.Api
             {
                 app.UseHsts();
             }
+
             app.UseAuthentication();
             //app.UseHttpsRedirection
             app.UseMvc();
@@ -79,15 +74,15 @@ namespace EventApp.Api
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidIssuer = jwtSettings.Value.Issuer,
-                        ValidateAudience = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Key))
-                    };
-                }
-            );
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidIssuer = jwtSettings.Value.Issuer,
+                            ValidateAudience = false,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Key))
+                        };
+                    }
+                );
 
             services.AddAuthorization(options =>
             {
