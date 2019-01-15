@@ -45,7 +45,7 @@ namespace EventApp.Infrastructure.Services
         public async Task CreateAsync(Guid id, string name, string description, DateTime startDate, DateTime endDate)
         {
             var @event = await _repository.GetAsync(name);
-            if(@event != null)
+            if (@event != null)
             {
                 throw new Exception($"Event named: '{name}' already exist.");
             }
@@ -57,7 +57,7 @@ namespace EventApp.Infrastructure.Services
         public async Task UpdateAsync(Guid id, string name, string description)
         {
             var @event = await _repository.GetOrFailAsync(id);
-            if(await _repository.GetAsync(name) != null)
+            if (await _repository.GetAsync(name) != null)
             {
                 throw new Exception($"Event with name: '{name}' already exists.");
             }

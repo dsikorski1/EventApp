@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EventApp.Infrastructure.Commands.Users;
 using EventApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -13,11 +10,11 @@ namespace EventApp.Api.Controllers
     [ApiController]
     public class AccountController : ApiController
     {
-        private IUserService _service;
+        private readonly IUserService _service;
 
         public AccountController(IUserService service)
         {
-            _service = service;        
+            _service = service;
         }
 
         [HttpGet]
@@ -31,7 +28,7 @@ namespace EventApp.Api.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody]LoginUser command)
+        public async Task<IActionResult> Login([FromBody] LoginUser command)
         {
             var token = await _service.LoginAsync(command);
 
@@ -40,7 +37,7 @@ namespace EventApp.Api.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody]RegisterUser command)
+        public async Task<IActionResult> Register([FromBody] RegisterUser command)
         {
             await _service.RegisterAsync(command);
 

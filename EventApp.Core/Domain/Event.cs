@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EventApp.Core.Domain
 {
@@ -15,7 +14,7 @@ namespace EventApp.Core.Domain
         public DateTime EndDate { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
-        public IEnumerable<Ticket> PurchasedTickets => _tickets.Where(t => t.Purchased());
+        public IEnumerable<Ticket> PurchasedTickets => _tickets.Where(t => t.IsPurchased());
         public IEnumerable<Ticket> AvailableTickets => _tickets.Except(PurchasedTickets);
 
         protected Event() : base(Guid.NewGuid())
@@ -32,6 +31,16 @@ namespace EventApp.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
+        public void SetName(string name)
+        {
+            Name = name;
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
+
         public void AddTickets(int amount, decimal price)
         {
             var seating = _tickets.Count + 1;
@@ -42,14 +51,41 @@ namespace EventApp.Core.Domain
             }
         }
 
-        public void SetName(string name)
+        public void PurchaseTickets(User user, int amount)
         {
-            Name = name;
+            if (AvailableTickets.Count() < amount)
+            {
+                throw new Exception("Not enought available tickets to purchase.");
+            }
+
+            foreach (var ticket in AvailableTickets.Take(amount))
+            {
+                ticket.Purchase(user);
+            }
         }
 
-        public void SetDescription(string description)
+        public void CancelTickets(User user, int amount)
         {
-            Description = description;
+            var tickets = GetTicketsPurchasedByUser(user);
+            if (tickets.Count() < amount)
+            {
+                throw new Exception("Not enought purchased tickets to cancel.");
+            }
+
+            foreach (var ticket in tickets.Take(amount))
+            {
+                ticket.Cancel();
+            }
+        }
+
+        public IEnumerable<Ticket> GetTicketsPurchasedByUser(User user)
+        {
+            return GetTicketsPurchasedByUser(user.Id);
+        }
+
+        public IEnumerable<Ticket> GetTicketsPurchasedByUser(Guid userId)
+        {
+            return PurchasedTickets.Where(x => x.UserId == userId);
         }
     }
 }
