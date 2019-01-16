@@ -4,6 +4,7 @@ using EventApp.Infrastructure.Commands.Events;
 using EventApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EventApp.Api.Controllers
 {
@@ -13,10 +14,12 @@ namespace EventApp.Api.Controllers
     public class EventsController : ApiController
     {
         private readonly IEventService _service;
+        private readonly ILogger<EventsController> _logger;
 
-        public EventsController(IEventService service)
+        public EventsController(IEventService service, ILogger<EventsController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -24,7 +27,9 @@ namespace EventApp.Api.Controllers
         public async Task<IActionResult> List()
         {
             var events = await _service.BrowseAsync();
-
+            
+            _logger.LogInformation("Fetching events");
+            
             return Json(events);
         }
 

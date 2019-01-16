@@ -4,6 +4,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace EventApp.Api
 {
@@ -32,7 +33,8 @@ namespace EventApp.Api
                 {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
-                });
+                })
+                .UseNLog();
 
             return builder;
         }
